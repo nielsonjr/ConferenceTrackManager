@@ -3,8 +3,8 @@ package ctm;
 import java.io.File;
 import java.util.List;
 
-import model.Conference;
-import model.Talk;
+import model.conference.Conference;
+import model.talk.Talk;
 import parser.DefaultFormatParser;
 import algorithms.Scheduler;
 import algorithms.buildConference.BuildConferenceAlgorithm;

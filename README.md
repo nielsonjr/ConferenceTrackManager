@@ -11,7 +11,7 @@ You are planning a big programming conference and have received many proposals w
 - All talk lengths are either in minutes (not hours) or lightning (5 minutes).
 - Presenters will be very punctual; there needs to be no gap between sessions.
 
-Note that depending on how you choose to complete this problem, your solution may give a different ordering or combination of talks into tracks. This is acceptable; you don’t need to exactly duplicate the sample output given here.
+Note that depending on how you choose to complete this problem, your solution may give a different ordering or combination of talks into tracks. This is acceptable; you don't need to exactly duplicate the sample output given here.
 
 ## Sample input:
 

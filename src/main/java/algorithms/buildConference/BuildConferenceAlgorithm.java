@@ -2,8 +2,8 @@ package algorithms.buildConference;
 
 import java.util.List;
 
-import model.Conference;
-import model.Talk;
+import model.conference.Conference;
+import model.talk.Talk;
 
 /**
  * This interface defines algorithms to build a conference. 

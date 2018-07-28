@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.List;
 
 import exceptions.ConferenceTrackManagerException;
-import model.Talk;
+import model.talk.Talk;
 
 /**
  * An inferface to build a collection of {@link Talk} from a File

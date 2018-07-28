@@ -5,9 +5,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.SortedSet;
 
-import model.Conference;
-import model.Talk;
-import model.Track;
+import model.conference.Conference;
+import model.talk.Talk;
+import model.track.Track;
 import validators.LunchTimeValidator;
 import validators.NetworkingMeetingTimeValidator;
 import exceptions.ConferenceTrackManagerException;

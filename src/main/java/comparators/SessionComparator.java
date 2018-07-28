@@ -3,8 +3,8 @@ package comparators;
 import java.util.Comparator;
 import java.util.Iterator;
 
-import model.Session;
-import model.Talk;
+import model.session.Session;
+import model.talk.Talk;
 
 /**
  * A comparator for {@link Session} objects. It compares the size of talk lists, if they are equals then compare each {@link Talk} in the list

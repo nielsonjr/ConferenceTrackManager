@@ -10,9 +10,9 @@ import exceptions.ConferenceTrackManagerException;
 import validators.DurationValidator;
 import validators.IValidator;
 import validators.NoNumberValidator;
-import model.CommomTalk;
-import model.LightningTalk;
-import model.Talk;
+import model.talk.CommomTalk;
+import model.talk.LightningTalk;
+import model.talk.Talk;
 
 /**
  * This class is responsible to parser the file with the rules defined in the project:

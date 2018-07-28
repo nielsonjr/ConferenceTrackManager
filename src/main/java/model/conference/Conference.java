@@ -1,7 +1,9 @@
-package model;
+package model.conference;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import model.track.Track;
 
 /**
  * Represents a Conference

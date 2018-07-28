@@ -1,4 +1,4 @@
-package model;
+package model.talk;
 
 import java.util.Date;
 
