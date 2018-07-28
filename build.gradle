@@ -1,0 +1,18 @@
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile 'junit:junit:4.12'
+}
+
+task run (type: JavaExec, dependsOn: classes){
+    if (project.hasProperty("inputFile")) {
+        args inputFile
+    }
+
+    main "ctm.Main"
+    classpath = sourceSets.main.runtimeClasspath
+}

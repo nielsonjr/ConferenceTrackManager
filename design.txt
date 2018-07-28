@@ -1,0 +1,17 @@
+Esclarecimentos sobre o algoritmo utilizado.
+
+O algoritmo utilizado para solucionar o problema consiste em combinar as "Talk" passadas no arquivo de entrada até achar uma combinação válida para uma conferência. Inicialmente todas as talk's são combinadas. Em seguida, esse conjuto de talks é filtrado resultando nas possíveis combinações para as "morning session" e "afternoon session". Essas duas listas são então combinadas para formar a quantidade de "Track" possíveis. Após isso, as listas de tracks são analisadas procurando uma conferência válida. Uma conferência será válida, se todas os objetos "Talk" contidos nas "Track" sejam diferentes entre si, ou seja, nenhum objeto "Talk" está repetido na lista de possiveis Tracks. Por fim, caso uma conferência válida seja encontrada, todas as suas talks terão seus horários definidos.
+
+Esclarecimentos sobre o design utilizado.
+Para solucionar o problema, o projeto foi divido nas seguintes pacotes:
+	- Algorithms = Classes responsáveis por implementar algoritmos para auxiliar na combinação das Talks. Possui uma estrutura que permite a criação de novos algoritmos.
+	- Schedule = Responsável por agendar os horários das "Talk" na conferência.
+	- Comparators = Classe utilizada para comparações durante a combinação das entidades.
+	- Model = Contém as classes de modelo do projeto. Conference contém uma lista de Tracks, que por sua vez contém uma Session para a parte da manhã e outra para a parte da tarde. Cada session possui uma coleção de Talks, que representam as palestras da conferência. As talks podem ser divididas em Lightning Talk, talks de apenas 5 minutos, e CommomTalk, uma palestra comum com duração não-fixas.
+	- Parser = Classes responsáveis por implementar a conversão dos arquivos em "Talk". Sua estrutura foi implementada para que novas formas de conversão possam ser adicionadas sem impacto.
+	- Exceptions = Algums classes que representam exceções da aplicação
+	- Validators = Classes que possuem regras de validação de valores. Sua estrutura foi implementada visando a adição de novos validadores.
+
+Esclarecimentos diversos.
+- Alguns testes para a aplicação estão contidos na pasta test. É possível executar todos de uma só vez através da execução da classe de suite de testes ConferenceTrackManagerSuiteTest;
+- Todos os valores de duração de Talks são medidos em minutos.

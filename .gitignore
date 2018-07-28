@@ -1,0 +1,40 @@
+*.class
+*.jar
+*.war
+*.ear
+hs_err_pid*
+
+.gradle
+
+# IntelliJ stuff
+*.iml
+.idea/
+*.ipr
+*.iws
+/out/
+.idea_modules/
+
+# Eclipse
+
+.metadata
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+local.properties
+.settings/
+.loadpath
+.project
+.classpath
+
+# NetBeans
+
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+nbactions.xml
+nb-configuration.xml
+.nb-gradle/
