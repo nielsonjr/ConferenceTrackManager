@@ -1,15 +1,10 @@
 package algorithms.buildConference;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
-import comparators.SessionComparator;
 import config.Configuration;
 import model.conference.Conference;
 import model.session.Session;
@@ -23,14 +18,14 @@ import model.track.Track;
  * @author Nielson
  *
  */
-public class CheckAllCombinationsOfTalksAlgorithm implements BuildConferenceAlgorithm {
+public class CheckAllCombinationsWithoutOrderOfTalksAlgorithm implements BuildConferenceAlgorithm {
 
 	@Override
 	public Conference buildConference(List<Talk> talks) {
 
 		// SESSIONs
-		SortedSet<Session> allCombListPossibleMorning = new TreeSet<Session>(new SessionComparator());
-		SortedSet<Session> allCombListPossibleAfternoon = new TreeSet<Session>(new SessionComparator());
+		Set<Session> allCombListPossibleMorning = new HashSet<Session>();
+		Set<Session> allCombListPossibleAfternoon = new HashSet<Session>();
 
 		// Build all the possible sessions
 		buildPossibleSessionsList(talks, allCombListPossibleMorning, allCombListPossibleAfternoon,
@@ -177,8 +172,8 @@ public class CheckAllCombinationsOfTalksAlgorithm implements BuildConferenceAlgo
 	 * @param allCombListPossibleAfternoon - The possible set of afternoon Sessions
 	 * @return A list with all possible Tracks
 	 */
-	private List<Track> getAllPossibleTracks(SortedSet<Session> allCombListPossibleMorning,
-			SortedSet<Session> allCombListPossibleAfternoon) {
+	private List<Track> getAllPossibleTracks(Set<Session> allCombListPossibleMorning,
+			Set<Session> allCombListPossibleAfternoon) {
 
 		List<Track> possibleTracks = new ArrayList<Track>();
 
@@ -224,17 +219,17 @@ public class CheckAllCombinationsOfTalksAlgorithm implements BuildConferenceAlgo
 	 * @param sessionMinDuration           - Session minimum duration
 	 * @param sessionMaxDuration           - Session maximum duration
 	 */
-	public void buildPossibleSessionsList(List<Talk> talks, SortedSet<Session> allCombListPossibleMorning,
-			SortedSet<Session> allCombListPossibleAfternoon, int sessionMinDuration, int sessionMaxDuration) {
+	public void buildPossibleSessionsList(List<Talk> talks, Set<Session> allCombListPossibleMorning,
+			Set<Session> allCombListPossibleAfternoon, int sessionMinDuration, int sessionMaxDuration) {
 
 		System.out.println("Searching for all possible combinations with the talks... Please, wait!");
 		// Get all possible combinations from the talks list
-		SortedSet<SortedSet<Talk>> allCombinationList = allCombinations(talks);
+		Set<Set<Talk>> allCombinationList = allCombinations(talks);
 
 		// Get all possible combinations from talk list
 		System.out.println(
 				"Building possible combinations for the morning Talk's and for afternoon Talk's... Please, wait!");
-		for (SortedSet<Talk> sortedSet : allCombinationList) {
+		for (Set<Talk> sortedSet : allCombinationList) {
 			int time = 0;
 
 			for (Talk talk : sortedSet) { // get the duration from the set of talks
@@ -263,40 +258,25 @@ public class CheckAllCombinationsOfTalksAlgorithm implements BuildConferenceAlgo
 	 * @param listToBeCombined - List with all elements to be combined
 	 * @return A set with all the possible combinations
 	 */
-	public <T extends Comparable> SortedSet<SortedSet<T>> allCombinations(List<T> listToBeCombined) {
+	public <T extends Comparable<T>> Set<Set<T>> allCombinations(List<T> listToBeCombined) {
 
 		// Creating a set to holds all possible combinations. The comparator will avoid
 		// duplications
-		SortedSet<SortedSet<T>> allCombList = new TreeSet<SortedSet<T>>(new Comparator<SortedSet<T>>() {
-
-			@Override
-			public int compare(SortedSet<T> o1, SortedSet<T> o2) {
-				int sizeComp = o1.size() - o2.size();
-				if (sizeComp == 0) {
-					Iterator<T> o1iIterator = o1.iterator();
-					Iterator<T> o2iIterator = o2.iterator();
-					while (sizeComp == 0 && o1iIterator.hasNext()) {
-						sizeComp = o1iIterator.next().compareTo(o2iIterator.next());
-					}
-				}
-				return sizeComp;
-
-			}
-		});
+		Set<Set<T>> allCombList = new HashSet<Set<T>>();
 
 		// Populating the list with the combinations "1 by 1"
 		for (T entityToBeCombined : listToBeCombined) {
 			List<T> arrayListOfTalks = new ArrayList<T>();
 			arrayListOfTalks.add(entityToBeCombined);
-			allCombList.add(new TreeSet<T>(arrayListOfTalks));
+			allCombList.add(new HashSet<T>(arrayListOfTalks));
 		}
 
 		for (int level = 1; level < listToBeCombined.size(); level++) {
 			// Creates another collection to modify the allCombList
-			List<SortedSet<T>> beforeCombinationState = new ArrayList<SortedSet<T>>(allCombList);
+			List<Set<T>> beforeCombinationState = new ArrayList<Set<T>>(allCombList);
 
 			for (Set<T> beforeCombination : beforeCombinationState) {
-				SortedSet<T> newSetOfCombinations = new TreeSet<T>(beforeCombination);
+				Set<T> newSetOfCombinations = new HashSet<T>(beforeCombination);
 				newSetOfCombinations.add(listToBeCombined.get(level));
 
 				// Add new combinations

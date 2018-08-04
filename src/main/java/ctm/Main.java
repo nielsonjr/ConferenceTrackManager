@@ -3,12 +3,13 @@ package ctm;
 import java.io.File;
 import java.util.List;
 
-import model.conference.Conference;
-import model.talk.Talk;
-import parser.DefaultFormatParser;
 import algorithms.Scheduler;
 import algorithms.buildConference.BuildConferenceAlgorithm;
 import algorithms.buildConference.BuildingAlgorithmFactory;
+import config.Configuration;
+import model.conference.Conference;
+import model.talk.Talk;
+import parser.DefaultFormatParser;
 
 /**
  * Execute the project. For more information about the project check the file "design.txt".
@@ -17,12 +18,18 @@ import algorithms.buildConference.BuildingAlgorithmFactory;
  */
 public class Main {
     public static void main(String[] args) throws Exception {
-    	File file = new File (args[0]);
+    	if(args == null || args.length < 1) {
+    		throw new RuntimeException("You must define the application properties path as parameter.");
+    	}
+    	
+    	Configuration.init(args[0]);
+    	
+    	File file = new File (Configuration.getTalksFilePath());
     	
     	DefaultFormatParser dfp = DefaultFormatParser.getInstance();
     	
     	List<Talk> talks = dfp.parser(file);
-    	BuildConferenceAlgorithm buildConferenceAlgorithm = BuildingAlgorithmFactory.getInstance().getAlgorithmToBuildConference(0);
+    	BuildConferenceAlgorithm buildConferenceAlgorithm = BuildingAlgorithmFactory.getInstance().getAlgorithmToBuildConference(Configuration.getAlgorithm());
     	Conference conference = buildConferenceAlgorithm.buildConference(talks);
     	
     	if(conference != null) {

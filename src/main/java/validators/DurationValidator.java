@@ -12,7 +12,7 @@ public class DurationValidator implements IValidator<String> {
 		boolean isValid = false;
 		
 		if(value == null || value.isEmpty() || value.trim().isEmpty()) {
-			return isValid = false;
+			isValid = false;
 		}
 		else {
 			String duration = value.substring(value.lastIndexOf(" ") + 1); 

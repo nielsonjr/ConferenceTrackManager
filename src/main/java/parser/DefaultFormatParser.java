@@ -23,10 +23,11 @@ import model.talk.Talk;
  *
  */
 public class DefaultFormatParser implements IParser {
-	private List<IValidator> validators = new ArrayList<IValidator>();
+	private List<IValidator<String>> validators = new ArrayList<IValidator<String>>();
 	private static DefaultFormatParser instance = null;
 	
 	private DefaultFormatParser() {
+		//TODO iterar no pacote de validador e adiciona todos
 		validators.add(new DurationValidator());
 		validators.add(new NoNumberValidator());
 	}
@@ -70,7 +71,7 @@ public class DefaultFormatParser implements IParser {
 
 	private boolean validateString(String content) {
 		boolean isValid = true;
-		for (IValidator validator : validators) {
+		for (IValidator<String> validator : validators) {
 			isValid = isValid && validator.validate(content);
 		}
 		

@@ -16,8 +16,8 @@ public class Track implements Comparable<Track> {
 	private Session possibleCombMorning;
 	private Session possibleCombAfternoon;
 
-	public static final int MIN_DURATION = Session.MIN_DURATION + Session.MIN_DURATION;
-	public static final int MAX_DURATION = Session.MIN_DURATION + Session.MAX_DURATION;
+//	public static final int MIN_DURATION = Session.MIN_DURATION + Session.MIN_DURATION;
+//	public static final int MAX_DURATION = Session.MIN_DURATION + Session.MAX_DURATION;
 
 	public Track(Session possibleCombMorning, Session possibleCombAfternoon) {
 		this.possibleCombMorning = possibleCombMorning;
@@ -32,12 +32,12 @@ public class Track implements Comparable<Track> {
 		this.possibleCombMorning = possibleCombMorning;
 	}
 
-	public Session getAllCombListPossibleEve() {
+	public Session getAllCombListPossibleAfternoon() {
 		return possibleCombAfternoon;
 	}
 
-	public void setAllCombListPossibleEve(Session allCombListPossibleEve) {
-		this.possibleCombAfternoon = allCombListPossibleEve;
+	public void setAllCombListPossibleAfternoon(Session allCombListPossibleAfternoon) {
+		this.possibleCombAfternoon = allCombListPossibleAfternoon;
 	}
 
 	public List<Talk> getAllTaksInTheTrack() {
@@ -87,7 +87,7 @@ public class Track implements Comparable<Track> {
 
 			if (sizeComp == 0) {
 				Iterator<Talk> afternoonIterator = this.possibleCombAfternoon.getTalks().iterator();
-				Iterator<Talk> afternoonIteratorFromObject = o.getAllCombListPossibleEve().getTalks().iterator();
+				Iterator<Talk> afternoonIteratorFromObject = o.getAllCombListPossibleAfternoon().getTalks().iterator();
 				while (sizeComp == 0 && afternoonIterator.hasNext()) {
 					sizeComp = afternoonIterator.next().compareTo(afternoonIteratorFromObject.next());
 				}

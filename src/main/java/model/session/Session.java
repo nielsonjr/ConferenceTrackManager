@@ -1,5 +1,6 @@
 package model.session;
 
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -12,17 +13,21 @@ import model.talk.Talk;
  *
  */
 public class Session {
-	private SortedSet<Talk> talks = new TreeSet<Talk>();
+	private Set<Talk> talks = null;
 	private Integer duration = null;
 
-	public static final Integer MIN_DURATION = 180;
-	public static final Integer MAX_DURATION = 240;
+//	public static final Integer MIN_DURATION = 180;
+//	public static final Integer MAX_DURATION = 240;
 
-	public SortedSet<Talk> getTalks() {
+	public Session(Set<Talk> talks) {
+		this.talks = talks;
+	}
+	
+	public Set<Talk> getTalks() {
 		return talks;
 	}
 
-	public void setTalks(SortedSet<Talk> talks) {
+	public void setTalks(Set<Talk> talks) {
 		this.talks = talks;
 	}
 

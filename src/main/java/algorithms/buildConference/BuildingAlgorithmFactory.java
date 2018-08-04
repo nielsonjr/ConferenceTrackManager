@@ -1,5 +1,8 @@
 package algorithms.buildConference;
 
+
+import util.ConstantsApp;
+
 /**
  * This class creates a correct algorithm to build the {@link Conference} given an identification.
  * @author Nielson
@@ -25,18 +28,20 @@ public class BuildingAlgorithmFactory {
 	 * @param id - The identification from the algorithm class  
 	 * @return An instance for the algorithm for build the conference
 	 */
-	public BuildConferenceAlgorithm getAlgorithmToBuildConference(int id) {
+	public BuildConferenceAlgorithm getAlgorithmToBuildConference(String name) {
+		if(name == null) {
+			return null;
+		}
+		
 		BuildConferenceAlgorithm buildConferenceAlgorithm = null;
 		
 		//new identifications can be added, when new algorithms are developed.
-		switch (id) {
-		case 0: 
+		if(name.equalsIgnoreCase(ConstantsApp.ALGORITHM_ALL_COMBINATIONS_NAME)) {
 			buildConferenceAlgorithm = new CheckAllCombinationsOfTalksAlgorithm();
-			break;
-		default:
-			buildConferenceAlgorithm = new CheckAllCombinationsOfTalksAlgorithm();
-			break;
+		} else if(name.equalsIgnoreCase(ConstantsApp.ALGORITHM_ALL_COMBINATIONS_NO_ORDER_NAME)) {
+			buildConferenceAlgorithm = new CheckAllCombinationsWithoutOrderOfTalksAlgorithm();
 		}
+		
 		
 		return buildConferenceAlgorithm;
 	}

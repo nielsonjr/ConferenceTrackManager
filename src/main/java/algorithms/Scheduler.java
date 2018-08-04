@@ -3,17 +3,18 @@ package algorithms;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.SortedSet;
+import java.util.Set;
 
+import config.Configuration;
+import exceptions.ConferenceTrackManagerException;
+import exceptions.InvalidTotalTimeForTrackException;
+import exceptions.LunchTimeInvalidException;
+import exceptions.NetworkMeetingTimeInvalidException;
 import model.conference.Conference;
 import model.talk.Talk;
 import model.track.Track;
 import validators.LunchTimeValidator;
 import validators.NetworkingMeetingTimeValidator;
-import exceptions.ConferenceTrackManagerException;
-import exceptions.InvalidTotalTimeForTrackException;
-import exceptions.LunchTimeInvalidException;
-import exceptions.NetworkMeetingTimeInvalidException;
 
 /**
  * Responsible to schedule all the talks in the conference
@@ -43,11 +44,11 @@ public class Scheduler {
 		for (Track track : conference.getTracks()) {
 			
 			int timeOfTrack = track.getTimeOfTrack();
-			if(timeOfTrack < Track.MIN_DURATION || timeOfTrack > Track.MAX_DURATION) {
+			if(timeOfTrack < Configuration.getTrackMinDuration() || timeOfTrack > Configuration.getTrackMaxDuration()) {
 				throw new InvalidTotalTimeForTrackException("The track has duration equals to " + timeOfTrack + "min. It is outside of the valid time interval.");
 			}
 			
-			scheduleDescription += "=======Track " + trackCount + "======\n";
+			scheduleDescription += "\n=======Track " + trackCount + "======\n";
 
 			// start time 09:00 AM.
 			SimpleDateFormat dateFormat = new SimpleDateFormat ("hh:mma");
@@ -59,7 +60,7 @@ public class Scheduler {
 
 			String time = dateFormat.format(date);           
 
-			SortedSet<Talk> mornSessionTalkList = track.getPossibleCombMorning().getTalks();
+			Set<Talk> mornSessionTalkList = track.getPossibleCombMorning().getTalks();
 			for(Talk talk : mornSessionTalkList) {
 				talk.setScheduled(true);
 				talk.setHour(date);
@@ -71,7 +72,7 @@ public class Scheduler {
 			scheduleDescription = validateAndAddLunchTime(scheduleDescription, cal, time);
 			time = getNextScheduledTime(date, 60);
 
-			SortedSet<Talk> eveSessionTalkList = track.getAllCombListPossibleEve().getTalks();
+			Set<Talk> eveSessionTalkList = track.getAllCombListPossibleAfternoon().getTalks();
 			for(Talk talk : eveSessionTalkList) {
 				talk.setScheduled(true);
 				talk.setHour(date);
