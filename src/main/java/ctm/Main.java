@@ -3,13 +3,14 @@ package ctm;
 import java.io.File;
 import java.util.List;
 
-import algorithms.Scheduler;
-import algorithms.buildConference.BuildConferenceAlgorithm;
-import algorithms.buildConference.BuildingAlgorithmFactory;
 import config.Configuration;
+import generator.Scheduler;
+import generator.buildConference.ConferenceGenerator;
+import generator.buildConference.ConferenceGeneratorFactory;
 import model.conference.Conference;
 import model.talk.Talk;
-import parser.DefaultFormatParser;
+import parser.IParser;
+import parser.ParserFactory;
 
 /**
  * Execute the project. For more information about the project check the file "design.txt".
@@ -26,10 +27,10 @@ public class Main {
     	
     	File file = new File (Configuration.getTalksFilePath());
     	
-    	DefaultFormatParser dfp = DefaultFormatParser.getInstance();
+    	IParser parser = ParserFactory.getInstance().getParser(Configuration.getParser());
+    	List<Talk> talks = parser.parse(file);
     	
-    	List<Talk> talks = dfp.parser(file);
-    	BuildConferenceAlgorithm buildConferenceAlgorithm = BuildingAlgorithmFactory.getInstance().getAlgorithmToBuildConference(Configuration.getAlgorithm());
+    	ConferenceGenerator buildConferenceAlgorithm = ConferenceGeneratorFactory.getInstance().getAlgorithmToBuildConference(Configuration.getAlgorithm());
     	Conference conference = buildConferenceAlgorithm.buildConference(talks);
     	
     	if(conference != null) {

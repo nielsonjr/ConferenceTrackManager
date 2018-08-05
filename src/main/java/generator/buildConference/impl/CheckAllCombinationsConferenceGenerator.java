@@ -1,4 +1,4 @@
-package algorithms.buildConference;
+package generator.buildConference.impl;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import config.Configuration;
+import generator.buildConference.ConferenceGenerator;
 import model.conference.Conference;
 import model.session.Session;
 import model.talk.Talk;
@@ -18,18 +19,19 @@ import model.track.Track;
  * @author Nielson
  *
  */
-public class CheckAllCombinationsWithoutOrderOfTalksAlgorithm implements BuildConferenceAlgorithm {
+public class CheckAllCombinationsConferenceGenerator implements ConferenceGenerator {
 
 	@Override
 	public Conference buildConference(List<Talk> talks) {
 
 		// SESSIONs
-		Set<Session> allCombListPossibleMorning = new HashSet<Session>();
-		Set<Session> allCombListPossibleAfternoon = new HashSet<Session>();
+		Set<Session> allCombListPossibleMorning = initializePossibleSessionsSet();
+		Set<Session> allCombListPossibleAfternoon = initializePossibleSessionsSet();
 
 		// Build all the possible sessions
 		buildPossibleSessionsList(talks, allCombListPossibleMorning, allCombListPossibleAfternoon,
-				Configuration.getSessionMinDuration(), Configuration.getSessionMaxDuration());
+				Configuration.getSessionMorningDuration(), Configuration.getSessionAfternoonMinDuration(),
+				Configuration.getSessionAfternoonMaxDuration());
 
 		System.out.println("Building all the possible tracks... Please, wait!");
 
@@ -41,6 +43,10 @@ public class CheckAllCombinationsWithoutOrderOfTalksAlgorithm implements BuildCo
 		Conference conference = searchForAConference(talks, possibleTracks);
 
 		return conference;
+	}
+
+	protected Set<Session> initializePossibleSessionsSet() {
+		return new HashSet<Session>();
 	}
 
 	/**
@@ -62,7 +68,7 @@ public class CheckAllCombinationsWithoutOrderOfTalksAlgorithm implements BuildCo
 
 		// number of tracks. Amount of time of the talks divided by the minimun duration
 		// of a track
-		int possibleNumberOfTracks = timeOfTalks / Configuration.getTrackMinDuration();
+		int possibleNumberOfTracks = (int) (timeOfTalks / Configuration.getTrackMinDuration());
 
 		int deep = possibleNumberOfTracks - 1; // combination level between the tracks
 		for (int i = 0; i < possibleTracks.size() && !isFoundACombForConference; i++) {
@@ -220,7 +226,8 @@ public class CheckAllCombinationsWithoutOrderOfTalksAlgorithm implements BuildCo
 	 * @param sessionMaxDuration           - Session maximum duration
 	 */
 	public void buildPossibleSessionsList(List<Talk> talks, Set<Session> allCombListPossibleMorning,
-			Set<Session> allCombListPossibleAfternoon, int sessionMinDuration, int sessionMaxDuration) {
+			Set<Session> allCombListPossibleAfternoon, long sessionMinDuration, long minAfternoonDuration,
+			long maxAfternoonDur) {
 
 		System.out.println("Searching for all possible combinations with the talks... Please, wait!");
 		// Get all possible combinations from the talks list
@@ -243,7 +250,7 @@ public class CheckAllCombinationsWithoutOrderOfTalksAlgorithm implements BuildCo
 				allCombListPossibleMorning.add(session); // possible conference morning
 			}
 
-			if (time >= sessionMinDuration && time <= sessionMaxDuration) {
+			if (time >= minAfternoonDuration && time <= maxAfternoonDur) {
 				Session session = new Session(sortedSet);
 				session.setDuration(time);
 
@@ -258,25 +265,25 @@ public class CheckAllCombinationsWithoutOrderOfTalksAlgorithm implements BuildCo
 	 * @param listToBeCombined - List with all elements to be combined
 	 * @return A set with all the possible combinations
 	 */
-	public <T extends Comparable<T>> Set<Set<T>> allCombinations(List<T> listToBeCombined) {
+	public Set<Set<Talk>> allCombinations(List<Talk> listToBeCombined) {
 
 		// Creating a set to holds all possible combinations. The comparator will avoid
 		// duplications
-		Set<Set<T>> allCombList = new HashSet<Set<T>>();
+		Set<Set<Talk>> allCombList = new HashSet<Set<Talk>>();
 
 		// Populating the list with the combinations "1 by 1"
-		for (T entityToBeCombined : listToBeCombined) {
-			List<T> arrayListOfTalks = new ArrayList<T>();
-			arrayListOfTalks.add(entityToBeCombined);
-			allCombList.add(new HashSet<T>(arrayListOfTalks));
+		for (Talk entityToBeCombined : listToBeCombined) {
+			List<Talk> arrayListOfTs = new ArrayList<Talk>();
+			arrayListOfTs.add(entityToBeCombined);
+			allCombList.add(new HashSet<Talk>(arrayListOfTs));
 		}
 
 		for (int level = 1; level < listToBeCombined.size(); level++) {
 			// Creates another collection to modify the allCombList
-			List<Set<T>> beforeCombinationState = new ArrayList<Set<T>>(allCombList);
+			List<Set<Talk>> beforeCombinationState = new ArrayList<Set<Talk>>(allCombList);
 
-			for (Set<T> beforeCombination : beforeCombinationState) {
-				Set<T> newSetOfCombinations = new HashSet<T>(beforeCombination);
+			for (Set<Talk> beforeCombination : beforeCombinationState) {
+				Set<Talk> newSetOfCombinations = new HashSet<Talk>(beforeCombination);
 				newSetOfCombinations.add(listToBeCombined.get(level));
 
 				// Add new combinations

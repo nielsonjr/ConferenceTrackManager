@@ -1,6 +1,7 @@
-package algorithms;
+package generator;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Set;
@@ -52,10 +53,13 @@ public class Scheduler {
 
 			// start time 09:00 AM.
 			SimpleDateFormat dateFormat = new SimpleDateFormat ("hh:mma");
+			LocalTime startTime = LocalTime.parse(Configuration.getConferenceBeginTime());
+			
 			Calendar cal = Calendar.getInstance();
-			cal.set(Calendar.HOUR_OF_DAY,9);
-			cal.set(Calendar.MINUTE,0);
-			cal.set(Calendar.SECOND,0);
+			cal.set(Calendar.HOUR_OF_DAY,startTime.getHour());
+			cal.set(Calendar.MINUTE,startTime.getMinute());
+			cal.set(Calendar.SECOND,startTime.getSecond());
+			
 			Date date = cal.getTime();
 
 			String time = dateFormat.format(date);           
@@ -70,7 +74,7 @@ public class Scheduler {
 			
 			cal.setTime(date);
 			scheduleDescription = validateAndAddLunchTime(scheduleDescription, cal, time);
-			time = getNextScheduledTime(date, 60);
+			time = getNextScheduledTime(date, Integer.parseInt(Configuration.getConferenceLunchDuration()));
 
 			Set<Talk> eveSessionTalkList = track.getAllCombListPossibleAfternoon().getTalks();
 			for(Talk talk : eveSessionTalkList) {
@@ -93,9 +97,12 @@ public class Scheduler {
 	private String validateAndAddNetworkingMeetting(String scheduleDescription,
 			Calendar cal, String time) throws ConferenceTrackManagerException {
 		int hour = cal.get(Calendar.HOUR_OF_DAY);
+		int min = cal.get(Calendar.MINUTE);
+		
+		LocalTime meetingTime = LocalTime.of(hour, min);
 		
 		NetworkingMeetingTimeValidator networkingMeetingTimeValidator = new NetworkingMeetingTimeValidator();
-		boolean isNetworkingMeetingTimeValid = networkingMeetingTimeValidator.validate(hour);
+		boolean isNetworkingMeetingTimeValid = networkingMeetingTimeValidator.validate(meetingTime);
 		
 		if(!isNetworkingMeetingTimeValid) {
 			throw new NetworkMeetingTimeInvalidException("Invalid hour for the Network Meeting");
@@ -109,8 +116,12 @@ public class Scheduler {
 	private String validateAndAddLunchTime(String scheduleDescription,
 			Calendar cal, String time) throws ConferenceTrackManagerException {
 		int hour = cal.get(Calendar.HOUR_OF_DAY);
+		int min = cal.get(Calendar.MINUTE);
+		
+		LocalTime lunchTime = LocalTime.of(hour, min);
+		
 		LunchTimeValidator lunchTimeValidator = new LunchTimeValidator();
-		boolean isLunchTimeValid = lunchTimeValidator.validate(hour);
+		boolean isLunchTimeValid = lunchTimeValidator.validate(lunchTime);
 		
 		if(!isLunchTimeValid) {
 			throw new LunchTimeInvalidException("Invalid hour for lunch");

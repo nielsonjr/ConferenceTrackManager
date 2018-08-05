@@ -1,8 +1,7 @@
 package model.session;
 
+import java.util.HashSet;
 import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 import model.talk.Talk;
 
@@ -16,9 +15,10 @@ public class Session {
 	private Set<Talk> talks = null;
 	private Integer duration = null;
 
-//	public static final Integer MIN_DURATION = 180;
-//	public static final Integer MAX_DURATION = 240;
-
+	public Session() {
+		this.talks = new HashSet<>();
+	}
+	
 	public Session(Set<Talk> talks) {
 		this.talks = talks;
 	}

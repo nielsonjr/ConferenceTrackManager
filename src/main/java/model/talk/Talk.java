@@ -7,7 +7,7 @@ import java.util.Date;
  * @author Nielson
  *
  */
-public abstract class Talk implements Comparable<Talk>{	
+public abstract class Talk /*implements Comparable<Talk>*/{	
 	private String name;
 	private boolean isScheduled = false;
 	
@@ -36,10 +36,10 @@ public abstract class Talk implements Comparable<Talk>{
 		return "Talk name: " + getName() + ", talk duration: " + getDuration() + "min";
 	}
 
-	@Override
-	public int compareTo(Talk arg0) {
-		return this.getName().compareTo(arg0.getName());
-	}	
+//	@Override
+//	public int compareTo(Talk arg0) {
+//		return this.getName().compareTo(arg0.getName());
+//	}	
 	
 	
 	@Override

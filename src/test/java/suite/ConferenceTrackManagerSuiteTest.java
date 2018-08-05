@@ -5,10 +5,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 import buildConferenceAlgorithm.AllCombinationListTest;
 import buildConferenceAlgorithm.BuildCombinationListsForSessionTest;
-import schedule.LunchTimeTest;
-import schedule.NetworkMeetingTimeTest;
 import schedule.ScheduleSuiteTest;
-import schedule.ScheduleTasksTest;
 import validators.NameValidatorTest;
 import validators.TalkDurationValidatorTest;
 

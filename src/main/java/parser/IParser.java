@@ -19,5 +19,5 @@ public interface IParser {
 	 * @return A list of talks
 	 * @throws Raised an {@link ConferenceTrackManagerException} if the format of the file is invalid
 	 */
-	public List<Talk> parser(File file) throws ConferenceTrackManagerException;
+	public List<Talk> parse(File file) throws ConferenceTrackManagerException;
 }

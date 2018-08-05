@@ -1,4 +1,4 @@
-package algorithms.buildConference;
+package generator.buildConference;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import model.talk.Talk;
  * @author Nielson
  *
  */
-public interface BuildConferenceAlgorithm {
+public interface ConferenceGenerator {
 	/**
 	 * Try to build a conference with the list of talks
 	 * @param talks - list of talks

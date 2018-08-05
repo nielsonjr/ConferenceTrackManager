@@ -12,7 +12,7 @@ import model.talk.Talk;
  * @author Nielson
  *
  */
-public class Track implements Comparable<Track> {
+public class Track /*implements Comparable<Track>*/ {
 	private Session possibleCombMorning;
 	private Session possibleCombAfternoon;
 
@@ -74,26 +74,26 @@ public class Track implements Comparable<Track> {
 				+ possibleCombAfternoon.getTalks().toString() + "\n===============================================";
 	}
 
-	@Override
-	public int compareTo(Track o) {
-		int sizeComp = this.possibleCombMorning.getTalks().size() - o.getPossibleCombMorning().getTalks().size();
-
-		if (sizeComp == 0) {
-			Iterator<Talk> morningIterator = this.possibleCombMorning.getTalks().iterator();
-			Iterator<Talk> morningIteratorFromObject = o.getPossibleCombMorning().getTalks().iterator();
-			while (sizeComp == 0 && morningIterator.hasNext()) {
-				sizeComp = morningIterator.next().compareTo(morningIteratorFromObject.next());
-			}
-
-			if (sizeComp == 0) {
-				Iterator<Talk> afternoonIterator = this.possibleCombAfternoon.getTalks().iterator();
-				Iterator<Talk> afternoonIteratorFromObject = o.getAllCombListPossibleAfternoon().getTalks().iterator();
-				while (sizeComp == 0 && afternoonIterator.hasNext()) {
-					sizeComp = afternoonIterator.next().compareTo(afternoonIteratorFromObject.next());
-				}
-			}
-		}
-		return sizeComp;
-	}
+//	@Override
+//	public int compareTo(Track o) {
+//		int sizeComp = this.possibleCombMorning.getTalks().size() - o.getPossibleCombMorning().getTalks().size();
+//
+//		if (sizeComp == 0) {
+//			Iterator<Talk> morningIterator = this.possibleCombMorning.getTalks().iterator();
+//			Iterator<Talk> morningIteratorFromObject = o.getPossibleCombMorning().getTalks().iterator();
+//			while (sizeComp == 0 && morningIterator.hasNext()) {
+//				sizeComp = morningIterator.next().compareTo(morningIteratorFromObject.next());
+//			}
+//
+//			if (sizeComp == 0) {
+//				Iterator<Talk> afternoonIterator = this.possibleCombAfternoon.getTalks().iterator();
+//				Iterator<Talk> afternoonIteratorFromObject = o.getAllCombListPossibleAfternoon().getTalks().iterator();
+//				while (sizeComp == 0 && afternoonIterator.hasNext()) {
+//					sizeComp = afternoonIterator.next().compareTo(afternoonIteratorFromObject.next());
+//				}
+//			}
+//		}
+//		return sizeComp;
+//	}
 
 }

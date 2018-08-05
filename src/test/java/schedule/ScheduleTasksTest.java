@@ -1,19 +1,29 @@
 package schedule;
 
-import model.CommomTalk;
-import model.Conference;
-import model.Session;
-import model.Track;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashSet;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import algorithms.Scheduler;
+import config.Configuration;
 import exceptions.ConferenceTrackManagerException;
 import exceptions.InvalidTotalTimeForTrackException;
+import generator.Scheduler;
+import model.conference.Conference;
+import model.session.Session;
+import model.talk.CommomTalk;
+import model.track.Track;
 
 public class ScheduleTasksTest {
 	private static Conference invalidConference = new Conference();
+	
+	@BeforeClass
+	public static void loadConfigs() throws IOException {
+		InputStream propStream = LunchTimeTest.class.getClassLoader().getResourceAsStream("./tests.properties");
+		Configuration.init(propStream);
+	}
 	
 	@BeforeClass
 	public static void loadTheValidConference() {
@@ -22,12 +32,12 @@ public class ScheduleTasksTest {
 	
 	@BeforeClass
 	public static void loadTheInvalidConference() {
-		Session morningSessionForTrack = new Session();
+		Session morningSessionForTrack = new Session(new HashSet<>());
 		
 		morningSessionForTrack.getTalks().add(new CommomTalk("Talk1", 60));
 		morningSessionForTrack.getTalks().add(new CommomTalk("Talk2", 60));
 		
-		Session afternoonSessionForTrack = new Session();
+		Session afternoonSessionForTrack = new Session(new HashSet<>());
 		
 		afternoonSessionForTrack.getTalks().add(new CommomTalk("Talk3", 30));
 		afternoonSessionForTrack.getTalks().add(new CommomTalk("Talk4", 45));
@@ -41,13 +51,13 @@ public class ScheduleTasksTest {
 	@Test
 	public void scheduleAValidConference() {
 		Conference validConference = new Conference();
-		Session morningSessionForTrack = new Session();
+		Session morningSessionForTrack = new Session(new HashSet<>());
 
 		morningSessionForTrack.getTalks().add(new CommomTalk("Talk1", 60));
 		morningSessionForTrack.getTalks().add(new CommomTalk("Talk2", 60));
 		morningSessionForTrack.getTalks().add(new CommomTalk("Talk3", 60));
 
-		Session afternoonSessionForTrack = new Session();
+		Session afternoonSessionForTrack = new Session(new HashSet<>());
 
 		afternoonSessionForTrack.getTalks().add(new CommomTalk("Talk4", 30));
 		afternoonSessionForTrack.getTalks().add(new CommomTalk("Talk5", 45));
@@ -68,13 +78,13 @@ public class ScheduleTasksTest {
 	@Test(expected=ConferenceTrackManagerException.class)
 	public void scheduleAnInvalidConference() throws ConferenceTrackManagerException {
 		Conference validConference = new Conference();
-		Session morningSessionForTrack = new Session();
+		Session morningSessionForTrack = new Session(new HashSet<>());
 
 		morningSessionForTrack.getTalks().add(new CommomTalk("Talk1", 60));
 		morningSessionForTrack.getTalks().add(new CommomTalk("Talk2", 60));
 		morningSessionForTrack.getTalks().add(new CommomTalk("Talk3", 60));
 
-		Session afternoonSessionForTrack = new Session();
+		Session afternoonSessionForTrack = new Session(new HashSet<>());
 
 		afternoonSessionForTrack.getTalks().add(new CommomTalk("Talk4", 30));
 		afternoonSessionForTrack.getTalks().add(new CommomTalk("Talk5", 45));

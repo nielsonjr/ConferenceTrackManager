@@ -13,13 +13,19 @@ import model.talk.Talk;
  */
 public class SessionComparator implements Comparator<Session> {
 
+	private Comparator<Talk> comparatorTalk = null;
+
+	public SessionComparator(Comparator<Talk> comparatorTalk) {
+		this.comparatorTalk = comparatorTalk;
+	}
+	
 	public int compare(Session o1, Session o2) {
 		int sizeComp = o1.getTalks().size() - o2.getTalks().size();  
 		if (sizeComp == 0) {  
 			Iterator<Talk> o1iIterator = o1.getTalks().iterator();  
 			Iterator<Talk> o2iIterator = o2.getTalks().iterator();  
 			while (sizeComp == 0 && o1iIterator.hasNext() ) {  
-				sizeComp = o1iIterator.next().compareTo(o2iIterator.next());  
+				sizeComp = comparatorTalk.compare(o1iIterator.next(), o2iIterator.next());  
 			}  
 		}  
 		return sizeComp;  

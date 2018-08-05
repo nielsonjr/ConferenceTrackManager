@@ -24,24 +24,15 @@ import model.talk.Talk;
  */
 public class DefaultFormatParser implements IParser {
 	private List<IValidator<String>> validators = new ArrayList<IValidator<String>>();
-	private static DefaultFormatParser instance = null;
 	
-	private DefaultFormatParser() {
+	public DefaultFormatParser() {
 		//TODO iterar no pacote de validador e adiciona todos
 		validators.add(new DurationValidator());
 		validators.add(new NoNumberValidator());
 	}
 	
-	public static DefaultFormatParser getInstance() {
-		if(instance == null) {
-			instance = new DefaultFormatParser();
-		}
-		
-		return instance;
-	}
-	
 	@Override
-	public List<Talk> parser(File file) throws ConferenceTrackManagerException {
+	public List<Talk> parse(File file) throws ConferenceTrackManagerException {
 		List<Talk> talks = new ArrayList<Talk>();
 		String content = null;
 		
