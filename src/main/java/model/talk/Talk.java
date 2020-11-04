@@ -7,7 +7,7 @@ import java.util.Date;
  * @author Nielson
  *
  */
-public abstract class Talk /*implements Comparable<Talk>*/{	
+public abstract class Talk {	
 	private String name;
 	private boolean isScheduled = false;
 	
